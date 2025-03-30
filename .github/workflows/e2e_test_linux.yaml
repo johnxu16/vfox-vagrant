@@ -1,0 +1,42 @@
+name: E2E tests on Linux (Prebuilt release)
+
+on:
+  # push:
+  #   branches: [main]
+  # pull_request:
+  workflow_dispatch:
+  # schedule:
+  #   # Runs at 12am UTC
+  #   - cron: '0 0 * * *'
+
+jobs:
+  e2e_tests:
+    strategy:
+      matrix:
+        # ref: https://github.com/actions/runner-images
+        os: [ubuntu-20.04]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install vfox (Linux)
+        run: |
+          echo "deb [trusted=yes] https://apt.fury.io/versionfox/ /" | sudo tee /etc/apt/sources.list.d/versionfox.list
+          sudo apt-get update
+          sudo apt-get install vfox
+
+      - name: add vfox-vagrant plugin (Unix-like) 
+        run: |
+          vfox add --source https://github.com/version-fox/vfox-vagrant/archive/${GITHUB_REF}.zip vagrant
+      
+      - name: install vagrant by vfox-vagrant plugin (Linux)
+        run: |
+          export MAKEFLAGS=-j4
+          export USE_PREBUILT_OTP="ubuntu-20.04"
+          vfox install vagrant@2.4.3
+          vfox use -g vagrant@2.4.3
+          eval "$(vfox activate bash)"
+          echo "===============PATH==============="
+          echo $PATH
+          echo "===============PATH==============="
+          vagrant -h

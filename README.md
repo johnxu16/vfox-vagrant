@@ -1,15 +1,47 @@
-# vfox-plugin-template
+# Introduction
 
-This is a [vfox plugin](https://vfox.lhan.me/plugins/create/howto.html) template with CI that package and publish the plugin.
+vfox-vagrant is a plugin for [vfox](https://vfox.dev/)
 
-## Usage
+# Prerequitsite
 
-1. [Generate](https://github.com/version-fox/vfox-plugin-template/generate) a new repository based on this template.
-2. Configure [metadata](https://github.com/version-fox/vfox-plugin-template/blob/main/metadata.lua) information
-3. To develop your plugin further, please read [the plugins create section of the docs](https://vfox.lhan.me/plugins/create/howto.html).
+Enable ["Sudo for Windows"](https://learn.microsoft.com/en-us/windows/sudo/)
 
+# How to use 
 
-## How to publish?
+## Install Plugin
+After installing vfox, run the following command to add the plugin:
 
-1. Push a new tag to the repository which name is `vX.Y.Z` (X.Y.Z is the version number).
-2. The CI will automatically package, then publish [release](https://github.com/version-fox/vfox-plugin-template/releases/tag/v0.0.1) and publish [manifest](https://github.com/version-fox/vfox-plugin-template/releases/tag/manifest).
+```sh
+vfox add vagrant
+```
+
+## Install SDK
+
+```sh
+vfox install vagrant@2.4.3
+vfox use -g vagrant@2.4.3
+```
+
+# Supported OS's
+
+Currently only Linux and Windows are supported.
+
+Mac OS is not supported due to HashiCorp distributing Vagrant as a DMG file for Mac.
+
+# Development
+
+```pwsh
+git clone https://github.com/johnxu16/vfox-vagrant.git $(PluginDirectoryPath)
+
+New-Item -ItemType SymbolicLink -Path "C:\Users\11633\.version-fox\vagrant" -Target "$(PluginDirectoryPath)"
+
+vfox config cache.availableHookDuration 0
+# vfox config cache.availableHookDuration 12h
+```
+
+# TODO
+
+- [ ] Support MacOS
+- [ ] Add sha check
+- [ ] Cache versions (fetch from cdn)
+- [ ] Env Path
