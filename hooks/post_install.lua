@@ -34,6 +34,7 @@ function PLUGIN:PostInstall(ctx)
             error("Vagrant install failed, please check the install.log for details.")
         end
 
+        print("Please wait till the installing ends...")
         -- Verify installation status
         local binPath = installPath .. "\\bin"
         -- local vagrantPath = binPath .. "\\vagrant"
